@@ -1,0 +1,48 @@
+[global]
+thread=1
+group_reporting=1
+direct=1
+verify=0
+time_based=1
+ramp_time=0
+runtime=30
+bs=512
+size=4k
+filename=/nvmedir/hello
+
+[srw128]
+stonewall
+description="iodepth128 sequencerw"
+rw=rw
+iodepth=128
+
+
+[rrw128]
+stonewall
+description="iodepth128 randrw"
+rw=randrw
+iodepth=128
+
+[srw64]
+stonewall
+description="iodepth64 sequencerw"
+rw=rw
+iodepth=64
+
+[rrw64]
+stonewall
+description="iodepth64 randrw"
+rw=randrw
+iodepth=64
+
+[rrw32]
+stonewall
+description="iodepth32 sequencerw"
+rw=rw
+iodepth=32
+
+[rrw32]
+stonewall
+description="iodepth32 randrw"
+rw=randrw
+iodepth=32
