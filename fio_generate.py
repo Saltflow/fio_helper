@@ -28,7 +28,7 @@ def decide_initial(args):
     else:
         filename_s = "filename=trtype=PCIe traddr=0000.00.0e.0 ns=1\n"
     globalattr += "ioengine=" + args.ioengine + "\n"
-    globalattr += filename_s = '\n'
+    globalattr += filename_s + '\n'
 
 def generate_points(args):
     min_num = 0

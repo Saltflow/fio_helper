@@ -18,8 +18,8 @@ def get_arg_parser():
     p = argparse.ArgumentParser(
         description='Create graphs from various fio json outputs')
     p.add_argument('path', help='Source path for fio output')
-    p.add_argument(,"--bs", "-b", help="list blocksize as variable", type=bool, default=False)
-    p.add_argument(, "--size", "-s", help="list size as variable", type=bool, default=False)
+    p.add_argument("--bs", "-b", help="list blocksize as variable", type=bool, default=False)
+    p.add_argument("--size", "-s", help="list size as variable", type=bool, default=False)
     p.add_argument(
         '-d',
         '--dir', action="store_true",
@@ -183,25 +183,25 @@ class FioResults(object):
         return self.cache['lat_dist']
 
     def print_(self):
-        merged = 0
+        mergedbw = 0
+        mergediops = 0
         for test in self.data['results']:
-            lats = self.get_aggregate_lat_dist(test)
-            print('aggregate latency distribution')
-            print(lats)
-            #pprint.pprint(lats)
+            print('aggregate iops')
+            ag_iops = self.get_aggregate_iops(test)
+            ag_iops['way'] = attach_name(test['name'], ag_iops.shape[0])
             print('aggregate bandwidth')
             ag_bw = self.get_aggregate_bw(test)
             ag_bw['way'] = attach_name(test['name'], ag_bw.shape[0])
-            print(ag_bw)
-            if(type(merged) == int):
-                merged = ag_bw.copy()
+            if(type(mergedbw) == int): # tricks to get accumulated result
+                mergedbw = ag_bw.copy()
+                mergediops = ag_iops.copy()
             else:
-                merged = merged.append(ag_bw)
-            #pprint.pprint(self.get_aggregate_bw())
-            print('aggregate iops')
-            #pprint.pprint(self.get_aggregate_iops())
+                mergedbw = mergedbw.append(ag_bw)
+                mergediops = mergediops.append(ag_iops)
         print("merged!!")
-        merged.to_excel("file.xlsx", sheet_name='Sheet1')
+        with pandas.ExcelWriter("file.xlsx") as writer:
+            mergedbw.to_excel(writer, sheet_name='bw')
+            mergediops.to_excel(writer, sheet_name='iops')
 
 
 def attach_name(name, number):
