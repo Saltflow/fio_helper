@@ -24,8 +24,8 @@ def get_arg_parser():
         '-d',
         '--dir', action="store_true",
         help='Read output files from a directory and consider files to be of the same run')
-    p.add_argument('-o', '--output', help='output directory for graphs',
-                   default='graphs')
+    p.add_argument('-o', '--output', help='output file name for xlsx',
+                   default='file')
     return p
 
 def parse_keys(key):
@@ -197,26 +197,27 @@ class FioResults(object):
         for test in self.data['results']:
             print('aggregate iops')
             ag_iops = self.get_aggregate_iops(test)
-            ag_iops['way'] = attach_name(test['name'], ag_iops.shape[0])
+            ag_iops.insert(0, 'way', attach_name(test['name'], ag_iops.shape[0]))
             print('aggregate bandwidth')
             ag_bw = self.get_aggregate_bw(test)
-            ag_bw['way'] = attach_name(test['name'], ag_bw.shape[0])
+            ag_bw.insert(0, 'way', attach_name(test['name'], ag_bw.shape[0]))
             if(type(mergedbw) == int): # tricks to get accumulated result
                 mergedbw = ag_bw.copy()
                 mergediops = ag_iops.copy()
             else:
                 mergedbw = mergedbw.append(ag_bw)
                 mergediops = mergediops.append(ag_iops)
-        print("merged!!")
-        with pandas.ExcelWriter("file.xlsx") as writer:
+        with pandas.ExcelWriter(self.args.output+".xlsx") as writer:
             mergedbw.to_excel(writer, sheet_name='bw')
             mergediops.to_excel(writer, sheet_name='iops')
 
 
 def attach_name(name, number):
     result = []
-    for i in range(number):
-        result.append(name)
+    result.append(name)
+    # In convenience for excel graph
+    for i in range(number- 1):
+        result.append('')
     return result
 
 def get_workers(val):

@@ -23,6 +23,10 @@ rw=rw
 
 def decide_initial(args):
     global globalattr
+    if(args.base != "default"):
+        with open(args.base, 'r') as f:
+            attrs = f.readlines()
+            globalattr = '\n'.join(attrs)
     if(args.ioengine!="spdk"):
         filename_s = "filename=/nvmedir/hello\n"
     else:
@@ -69,6 +73,7 @@ def get_arg_parser():
     `size` `bs` `iodepth` is supported now, note different variable should have different defalut value
     """, type=str, default="size")
     p.add_argument("--ioengine", "-g", help="what ioengine", type=str, default="psync")
+    p.add_argument("--base", help="global attr for fio", type=str, default="default")
     return p
 
 def main():
