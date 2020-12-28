@@ -28,6 +28,9 @@ def get_arg_parser():
                    default='graphs')
     return p
 
+def parse_keys(key):
+    keys = key.split('=')
+    return keys[0], int(keys[1])
 
 class FioResults(object):
 
@@ -138,13 +141,19 @@ class FioResults(object):
                 else:
                     d[job['jobname']]['lat_ms'][k] = job['latency_ms'][k]
 
+        var = ""
+        for key,value in d.items():
+            var =  parse_keys(key)[0]
+            break
         # create data frames from extracted data
         self.cache['bw'] = pandas.DataFrame(data={
             'name': [k for k in d.keys()],
+            var : [parse_keys(k)[1] for k in d.keys()],
             'read': [v['read'] for v in d.values()],
             'write': [v['write'] for v in d.values()]})
         self.cache['iops'] = pandas.DataFrame(data={
             'name': [k for k in d.keys()],
+            var : [parse_keys(k)[1] for k in d.keys()],
             'read': [v['r_iops'] for v in d.values()],
             'write': [v['w_iops'] for v in d.values()]})
 
