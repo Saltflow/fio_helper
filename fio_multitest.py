@@ -30,17 +30,24 @@ def genetare_fio_file(args):
 
 
 def run_fio_test(args):
+    try:
+        os.makedirs("test_result")
+    except:
+        print("test_result already exist")
     for i in range(len(args.check_files)):
-        os.system("sh ./check/" + args.check_files[i])
-        os.system("fio ")
-
-
+        os.system("sh ./check/" + 
+        args.check_files[i] + " " + args.test_names[i] + "./test_result/" + args.test_names[i])
+        
 def merge_fio_result(args):
-    pass
+    os.system("python fio_csv.py -d ./test_result/ result.xlsx")
 
 def clear_amid(args):
     pass
+
 def main():
+    genetare_fio_file(args)
+    run_fio_test(args)
+    merge_fio_result(args)
     
 
 if __name__ == "__main__":
