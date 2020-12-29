@@ -23,7 +23,7 @@ rw=rw
 
 def decide_initial(args):
     global globalattr
-    if(args.base != "default"):
+    if(args.base != "default.fio"):
         with open(args.base, 'r') as f:
             attrs = f.readlines()
             globalattr = '\n'.join(attrs)
