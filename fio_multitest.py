@@ -45,6 +45,7 @@ def clear_amid(args):
     pass
 
 def main():
+    args = get_arg_parser()
     genetare_fio_file(args)
     run_fio_test(args)
     merge_fio_result(args)
