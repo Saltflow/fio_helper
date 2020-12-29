@@ -10,8 +10,8 @@ Generate multiple testcases and run them sequentially via fio
 '''''
 def get_arg_parser():
     p = argparse.ArgumentParser(
-        description='Create automated comparation for multiple ioengine')
-    p.add_argument('base_file', help='the base for fio test',default='default.fio')
+        description='Create automated comparation for multiple ioengines, ioengines, test name and checkfiles should be strictly one-to-one')
+    p.add_argument('--base_file', "-b", help='the base for fio test',default='default.fio')
 
     p.add_argument("--ioengines", "-g", help="ioengines", type=str, nargs='+')
     p.add_argument("--test_names", "-t", help="test names on diffrent ioengines", type=str, nargs='+')
@@ -36,7 +36,7 @@ def run_fio_test(args):
     except Exception as exc:
         print("test_result already exist or failed")
         print(exc)
-    ioengine,check,test,base = args
+    __,check,test,__ = args
     for i in range(len(check)):
         os.system("sh ./check/" + 
         check[i] + " " + "./" + test[i] + " ./test_result/" + test[i])

@@ -1,54 +1,32 @@
 # fio_graphs
-Plot fio results with matplotlib.
+Parse fio results to xlsx.
 
 ## Notes
 
-* tries to remain agnostic to your actual jobs
-* aggregates on job name; i.e. aggregates job duplication with numjobs and
-  aggregates across multiple client nodes if the sam job file is used with fio's
-  client/server mode
+
 
 ## Requirements
 Requires python libraries
 
-* matplotlib
 * pandas
 * numpy
 
-# Running
-Run ``./fio_plots.py --help``
 
-## Design doc
+---
 
-一共分两部分：
+## Running
 
-fio测试文件生成、fio结果文件解析
+### Simple way
 
-fio测试文件生成：
+Run `fio_multitest.py -h`, fill the check file in `check`, designate `ioengine` and the name of the test
 
-1. 设置好测试的global参数 ————不用设置，默认参数一套
+## Scripts
 
-2. 规定上界下界和测试点数量，按照某一规则（线性、指数、对数）对某一个变量生成一组测试数据
+### fio_csv.py
 
-3. 自动生成命名和description
+The main script for parsing the fio file and exported to `.xlsx` file,
+note it is easy to modify it into `.csv` file
 
-需要注意的问题：
+### fio_generate.py
 
-1. iodepth和size,bs的默认不太相同
-
-2. bs的合法性
-
-step固定为2,一个加算一个乘算，对数删掉
-
-解析主要解析为：
-
-测试变量，读速度、写速度
-
-测试变量，读IOPS，写IOPS
-
-(xlsx的话两个合一个文件，不同的sheet)
-
-测试变量主要支持：
-
-size,bs,iodepth
-
+Generate test cases by given variable, ioengine, etc.
