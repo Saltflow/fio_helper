@@ -42,7 +42,6 @@ class FioResults(object):
             'results': [],
             'directory': self.args.dir
         }
-        os.makedirs(self.args.output, exist_ok=True)
         self.cache = {}
         self.meta = {}
 
@@ -194,6 +193,7 @@ class FioResults(object):
     def print_(self):
         mergedbw = 0
         mergediops = 0
+        sep_lat = []
         for test in self.data['results']:
             print('aggregate iops')
             ag_iops = self.get_aggregate_iops(test)
@@ -201,6 +201,7 @@ class FioResults(object):
             print('aggregate bandwidth')
             ag_bw = self.get_aggregate_bw(test)
             ag_bw.insert(0, 'way', attach_name(test['name'], ag_bw.shape[0]))
+            sep_lat.append(self.get_aggregate_lat_dist(test))
             if(type(mergedbw) == int): # tricks to get accumulated result
                 mergedbw = ag_bw.copy()
                 mergediops = ag_iops.copy()
@@ -210,6 +211,8 @@ class FioResults(object):
         with pandas.ExcelWriter(self.args.output+".xlsx") as writer:
             mergedbw.to_excel(writer, sheet_name='bw')
             mergediops.to_excel(writer, sheet_name='iops')
+            for i in range(len(sep_lat)):
+                sep_lat[i].to_excel(writer, self.data['results'][i]['name'] + "_lat_dist")
 
 
 def attach_name(name, number):

@@ -73,7 +73,7 @@ def get_arg_parser():
     `size` `bs` `iodepth` is supported now, note different variable should have different defalut value
     """, type=str, default="size")
     p.add_argument("--ioengine", "-g", help="what ioengine", type=str, default="psync")
-    p.add_argument("--base", help="global attr for fio", type=str, default="default")
+    p.add_argument("--base", help="global attr for fio", type=str, default="default.fio")
     return p
 
 def main():
