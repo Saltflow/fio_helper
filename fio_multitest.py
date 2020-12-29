@@ -27,7 +27,7 @@ def genetare_fio_file(args):
     ioengine,check,test,base = args
     for i in range(len(ioengine)):
         os.system("python fio_generate.py --base=" + base + " " + "--ioengine=" + ioengine[i] + " " +
-        test[i] + "*.fa")
+        test[i] + ".fa")
 
 
 def run_fio_test(args):
@@ -38,9 +38,9 @@ def run_fio_test(args):
         print(exc)
     __,check,test,__ = args
     for i in range(len(check)):
-        os.system("sh ./check/" + 
-        check[i] + " " + "./" + test[i] + "*.fa" + " ./test_result/" + test[i])
-    os.remove("*.fa")
+        cmd = "bash ./check/" + check[i] + " " + "./" + test[i] + ".fa" + " ./test_result/" + test[i]
+        print("Running " + cmd)
+        os.system(cmd)
         
 def merge_fio_result(args):
     os.system("python fio_csv.py -d ./test_result/ result.xlsx")
