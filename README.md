@@ -30,3 +30,11 @@ note it is easy to modify it into `.csv` file
 ### fio_generate.py
 
 Generate test cases by given variable, ioengine, etc.
+
+### ./check
+
+The `.sh` scripts for actually launch `fio`. Running an fio may have a lot to do beforehead, as well as clean the settings afterward, such as mounting a fs, loading a plugin, etc. In convenience to be called by `fio_multitest`, the first two arguments need to be input and output file for `fio`
+
+### fio_multitest.py
+
+Merge everything together.Generating test cases, running them via chekcfile,then convert the data via `fio_csv.py`
