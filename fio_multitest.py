@@ -24,19 +24,22 @@ def genetare_fio_file(args):
         os.makedirs("fio_file")
     except:
         print("fio_file already exist")
-    for i in range(len(args.ioengines)):
-        os.system("python fio_generate.py --base=" + args.base_file + " " + "--ioengine=" + args.ioengines[i] + " " +
-        args.test_names[i])
+    ioengine,check,test,base = args
+    for i in range(len(ioengine)):
+        os.system("python fio_generate.py --base=" + base + " " + "--ioengine=" + ioengine[i] + " " +
+        test[i])
 
 
 def run_fio_test(args):
     try:
         os.makedirs("test_result")
-    except:
-        print("test_result already exist")
-    for i in range(len(args.check_files)):
+    except Exception as exc:
+        print("test_result already exist or failed")
+        print(exc)
+    ioengine,check,test,base = args
+    for i in range(len(check)):
         os.system("sh ./check/" + 
-        args.check_files[i] + " " + args.test_names[i] + "./test_result/" + args.test_names[i])
+        check[i] + " " + "./" + test[i] + " ./test_result/" + test[i])
         
 def merge_fio_result(args):
     os.system("python fio_csv.py -d ./test_result/ result.xlsx")
@@ -44,10 +47,23 @@ def merge_fio_result(args):
 def clear_amid(args):
     pass
 
+def ns2list(ns):
+    olist = []
+    for i in ns:
+        olist.append(i)
+    return olist
+
+
 def main():
-    genetare_fio_file(args)
-    run_fio_test(args)
-    merge_fio_result(args)
+    args = get_arg_parser().parse_args()
+    ioengine = ns2list(args.ioengines)
+    check = ns2list(args.check_files)
+    test = ns2list(args.test_names)
+    base = args.base_file
+    arg = (ioengine, check, test, base)
+    genetare_fio_file(arg)
+    run_fio_test(arg)
+    merge_fio_result(arg)
     
 
 if __name__ == "__main__":
