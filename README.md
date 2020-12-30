@@ -1,16 +1,10 @@
-# fio_graphs
-Parse fio results to xlsx.
-
-## Notes
-
-
 
 ## Requirements
 Requires python libraries
 
+* matplotlib
 * pandas
 * numpy
-
 
 ---
 
@@ -38,3 +32,7 @@ The `.sh` scripts for actually launch `fio`. Running an fio may have a lot to do
 ### fio_multitest.py
 
 Merge everything together.Generating test cases, running them via chekcfile,then convert the data via `fio_csv.py`
+
+## References
+
+<https://github.com/jan--f/fio_graphs>
