@@ -1,2 +1,4 @@
+TESTS=spdk kernel
+
 start:
-	python fio_multitest.py --ioengines spdk psync --test_names spdk kernel --check_files check_spdk.sh check_kernel.sh
+	python fio_multitest.py --ioengines spdk psync --test_names $(TESTS) --check_files check_spdk.sh check_kernel.sh
