@@ -11,12 +11,13 @@ Generate multiple testcases and run them sequentially via fio
 def get_arg_parser():
     p = argparse.ArgumentParser(
         description='Create automated comparation for multiple ioengines, ioengines, test name and checkfiles should be strictly one-to-one')
-    p.add_argument('--base_file', "-b", help='the base for fio test',default='default.fio')
+    p.add_argument('--base_file', "-b", help='the base for fio test, default.fio means follow the default generator',default='default.fio')
 
     p.add_argument("--ioengines", "-g", help="ioengines", type=str, nargs='+')
     p.add_argument("--test_names", "-t", help="test names on diffrent ioengines", type=str, nargs='+')
     p.add_argument("--check_files", "-c", help="check files(do mounting fs, clearing cache, etc.) to prepared for fio test",
     type=str, nargs='+')
+    p.add_argument("--autogenerate", "-a", help="use default generation set", type=bool, default=True)
     return p
 
 def genetare_fio_file(args):
@@ -62,7 +63,8 @@ def main():
     test = ns2list(args.test_names)
     base = args.base_file
     arg = (ioengine, check, test, base)
-    genetare_fio_file(arg)
+    if(args.autogenerate):
+        genetare_fio_file(arg)
     run_fio_test(arg)
     merge_fio_result(arg)
     

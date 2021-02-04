@@ -16,7 +16,7 @@ time_based=1
 ramp_time=0
 runtime=30
 bs=512
-size=4k
+size=4m
 iodepth=32
 rw=rw
 """
@@ -31,6 +31,8 @@ def decide_initial(args):
         filename_s = "filename=/nvmedir/hello\n"
     else:
         filename_s = "filename=trtype=PCIe traddr=0000.00.0e.0 ns=1\n"
+    if(args.ioengine=="spdk_bdev"):
+        filename_s = "spdk_conf=/home/vagrant/fio_helper/nvme.conf\n"
     globalattr += "ioengine=" + args.ioengine + "\n"
     globalattr += filename_s + '\n'
 
