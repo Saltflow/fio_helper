@@ -15,9 +15,9 @@ verify=0
 time_based=1
 ramp_time=0
 runtime=30
-bs=512
+bs=4k
 size=4m
-iodepth=32
+iodepth=4
 rw=rw
 """
 
@@ -41,7 +41,7 @@ def generate_points(args):
     max_num = 0
     factor = 2
     if(args.variable != "iodepth"):
-        min_num = pow(2,9)
+        min_num = pow(2,12)
         max_num = pow(2,22)
         factor = 512
     else:
@@ -70,7 +70,7 @@ def get_arg_parser():
     p.add_argument("--exponential", "-e", help="genetare exp output", type=bool, default=False)
 
     p.add_argument("--test_count", "-c", help="number of test set", type=int, default=10)
-    p.add_argument("--start", "-s", help="start number", type=int, default=512)
+    p.add_argument("--start", "-s", help="start number", type=int, default=4096)
     p.add_argument("--variable", "-v", help="""possible vagriable,
     `size` `bs` `iodepth` is supported now, note different variable should have different defalut value
     """, type=str, default="size")

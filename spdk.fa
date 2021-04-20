@@ -7,65 +7,65 @@ verify=0
 time_based=1
 ramp_time=0
 runtime=30
-bs=512
+bs=4k
 size=4m
-iodepth=32
+iodepth=4
 rw=rw
 ioengine=spdk
 filename=trtype=PCIe traddr=0000.00.0e.0 ns=1
 
-[size=512]
+[size=4096]
 stonewall
 description="variable size"
-size=512
+size=4096
 
-[size=419840]
+[size=422912]
 stonewall
 description="variable size"
-size=419840
+size=422912
 
-[size=839168]
+[size=841728]
 stonewall
 description="variable size"
-size=839168
+size=841728
 
-[size=1258496]
+[size=1260544]
 stonewall
 description="variable size"
-size=1258496
+size=1260544
 
-[size=1677824]
+[size=1679360]
 stonewall
 description="variable size"
-size=1677824
+size=1679360
 
-[size=2097152]
+[size=2098176]
 stonewall
 description="variable size"
-size=2097152
+size=2098176
 
-[size=2516480]
+[size=2516992]
 stonewall
 description="variable size"
-size=2516480
+size=2516992
 
 [size=2935808]
 stonewall
 description="variable size"
 size=2935808
 
-[size=3355136]
+[size=3354624]
 stonewall
 description="variable size"
-size=3355136
+size=3354624
 
-[size=3774464]
+[size=3773440]
 stonewall
 description="variable size"
-size=3774464
+size=3773440
 
-[size=4193792]
+[size=4192256]
 stonewall
 description="variable size"
-size=4193792
+size=4192256
 
